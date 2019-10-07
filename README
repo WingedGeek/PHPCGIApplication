@@ -1,0 +1,18 @@
+PHPCGIApplication - A framework for building lightweight reusable web applications in PHP
+Copyright (c) 2019 Chris Harshman <WingedGeek@punctumarchimedis.com>
+
+This module is free software; you can redistribute it and/or modify it
+under the terms of either:
+ 
+a) the GNU General Public License as published by the Free Software
+Foundation, version 2.0.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+
+Version 0.01. The title of this framework may change, as CGI::Application is the starting
+point, but this may evolve beyond being a strict reimplementation of that module.
+
+Original: https://metacpan.org/source/MARTO/CGI-Application-4.61/lib/CGI/Application.pm
