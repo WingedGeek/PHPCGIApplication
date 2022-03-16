@@ -1,7 +1,7 @@
 <?php
-/*	PHPCGIApplication v0.02 [2021.06.17]
+/*	PHPCGIApplication v0.02a [2022.03.15]
  *	(Working Title)
- *	Current maintainer: Chris Harshman, wingedgeek@puntumarchimedis.com
+ *	Current maintainer: wingedgeek@puntumarchimedis.com
  *
  *	A lightweight PHP web application framework, loosely based on the Perl
  *	CGI::Application module (at least, that's the starting point): 
@@ -107,9 +107,7 @@ class PHPCGIApplication
         run_modes() - hash table containing mode => function mappings.
         tmpl_path() - text scalar or array reference containing path(s) to template files.
     */
-    public function setup()
-    {
-    }    // stub
+    public function setup() { }    // stub
 
     /*
         If implemented, this method is called automatically after your application runs.
@@ -118,9 +116,7 @@ class PHPCGIApplication
         function. You could also use the teardown() method to store state information about
         the application to the server.
     */
-    public function teardown()
-    {
-    } // stub
+    public function teardown() { }    // stub
 
     /*	If implemented, this method is called automatically right before the setup() method
         is called. This method provides an optional initialization hook, which improves the
@@ -131,9 +127,7 @@ class PHPCGIApplication
         "application super-class" from which all your web applications would inherit,
         instead of CGI::Application.
     */
-    public function cgiapp_init($init_params)
-    {
-    } // stubb
+    public function cgiapp_init($init_params) { }    // stub
 
 
     /*	If implemented, this method is called automatically right before the selected run mode
@@ -141,9 +135,7 @@ class PHPCGIApplication
         functionality to be added at the point right before the run mode method is called. To
         further leverage this hook, the value of the run mode is passed into cgiapp_prerun().
     */
-    public function cgiapp_prerun($runmode)
-    {
-    } // stub
+    public function cgiapp_prerun($runmode) { }    // stub
 
 
     /*	If implemented, this hook will be called after the run mode method has returned its
@@ -393,5 +385,44 @@ ERROR_START_HTML;
 ERROR_END_HTML;
         die;
     }
+
+	public static function generateUUID() {
+	   $pr_bits = null;
+		$fp = @fopen('/dev/urandom','rb');
+		if ($fp !== false) {
+				$pr_bits .= @fread($fp, 16);
+				@fclose($fp);
+		} else {
+			throw new \Exception("E0011: Unable to generate UUID value (attempting to open /dev/urandom in mode 'rb')", -1);
+		}
+
+		$time_low = bin2hex(substr($pr_bits,0, 4));
+		$time_mid = bin2hex(substr($pr_bits,4, 2));
+		$time_hi_and_version = bin2hex(substr($pr_bits,6, 2));
+		$clock_seq_hi_and_reserved = bin2hex(substr($pr_bits,8, 2));
+		$node = bin2hex(substr($pr_bits,10, 6));
+
+		/**
+		 * Set the four most significant bits (bits 12 through 15) of the
+		 * time_hi_and_version field to the 4-bit version number from
+		 * Section 4.1.3.
+		 * @see http://tools.ietf.org/html/rfc4122#section-4.1.3
+		 */
+		$time_hi_and_version = hexdec($time_hi_and_version);
+		$time_hi_and_version = $time_hi_and_version >> 4;
+		$time_hi_and_version = $time_hi_and_version | 0x4000;
+
+		/**
+		 * Set the two most significant bits (bits 6 and 7) of the
+		 * clock_seq_hi_and_reserved to zero and one, respectively.
+		 */
+		$clock_seq_hi_and_reserved = hexdec($clock_seq_hi_and_reserved);
+		$clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved >> 2;
+		$clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved | 0x8000;
+
+		return sprintf('%08s-%04s-%04x-%04x-%012s',
+				$time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
+
+	}
 }
 ?>
