@@ -8,8 +8,12 @@
  *	https://metacpan.org/source/MARTO/CGI-Application-4.61/lib/CGI/Application.pm
  */
 
-
-include_once("lib/template.php");	// Requires: https://github.com/WingedGeek/PHPHTMLTemplate
+// Requires: https://github.com/WingedGeek/PHPHTMLTemplate
+// Expected to be in a neighboring directory from this class:
+//$libdir = dirname( $_SERVER["SCRIPT_FILENAME"] ) . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR;
+//require_once $libdir . "PHPHTMLTemplate" . DIRECTORY_SEPARATOR . "/template.php";
+//include_once("lib/template.php");	// Requires: https://github.com/WingedGeek/PHPHTMLTemplate
+require_once(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "PHPHTMLTemplate" . DIRECTORY_SEPARATOR . "template.php");
 
 class PHPCGIApplication
 {
